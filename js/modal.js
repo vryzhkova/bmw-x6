@@ -1,17 +1,26 @@
-const moreElem = document.querySelector(".more");
+const designBlockElem = document.querySelector(".design-block");
+// const moreElems = document.querySelectorAll(".more");
 const modalElem = document.querySelector(".modal");
 
 const openModal = () => {
   modalElem.classList.remove("hidden");
+  disabledScroll();
 };
 
 const closenModal = () => {
   modalElem.classList.add("hidden");
+  enableScroll();
 };
 
-moreElem.addEventListener("click", openModal);
+designBlockElem.addEventListener("click", (event) => {
+  const target = event.target;
+
+  if (target.matches(".more")) {
+    openModal();
+  }
+});
+
 modalElem.addEventListener("click", (event) => {
-  console.log(event.target);
   const target = event.target;
 
   if (

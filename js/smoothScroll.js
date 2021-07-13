@@ -1,25 +1,11 @@
-// const smoothScrollElems = document.querySelectorAll(
-//   'a[href^="#"]:not(a[href="#"])'
-// );
-
-// smoothScrollElems.forEach((link) => {
-//   link.addEventListener("click", (event) => {
-//     event.preventDefault();
-//     const id = link.getAttribute("href").substring(1);
-
-//     document.getElementById(id).scrollIntoView({
-//       behavior: "smooth",
-//     });
-//   });
-// });
-const SPEED = 0.5;
+export default function smoothScroll(SPEED = 0.5) {
 
 const scrolled = (event) => {
-  event.preventDefault();
 
   const target = event.target;
 
   if (target.matches("[href^='#']")) {
+    event.preventDefault();
     let start = 0;
 
     const pageY = window.pageYOffset;
@@ -53,3 +39,4 @@ const scrolled = (event) => {
 };
 
 document.body.addEventListener("click", scrolled);
+}

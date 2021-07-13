@@ -1,3 +1,9 @@
+import blockScrolled from './blockScroll.js'
+
+const {disabledScroll, enableScroll} = blockScrolled;
+
+export default function modal() {
+
 const designBlockElem = document.querySelector(".design-block");
 // const moreElems = document.querySelectorAll(".more");
 const modalElem = document.querySelector(".modal");
@@ -30,3 +36,4 @@ modalElem.addEventListener("click", (event) => {
     closenModal();
   }
 });
+}

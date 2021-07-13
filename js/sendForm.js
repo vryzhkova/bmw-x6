@@ -1,7 +1,7 @@
 const server = 'https://jsonplaceholder.typicode.com/posts';
 
 const sendData = (data, callBack, falseCallBack) => {
-    const request = new XMLHttpRequest ();
+    const request = new XMLHttpRequest();
     request.open('POST', server);
 
     request.addEventListener('readystatechange', () => {
@@ -18,38 +18,61 @@ const sendData = (data, callBack, falseCallBack) => {
     request.send(data)
 };
 
-const formElems = document.querySelectorAll('.form');
-
 const formHandler = (form) => {
+    const smallElem= document.createElement('small');
+    form.append(smallElem);
+
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         const data = {};
+        let flag = true;
 
-        for (const {name, value} of form.elements) {
+        const buttonSubmit = form.querySelector('.button[type="submit"]');
+
+        for (const elem of form.elements) {
+            const {name, value} = elem;
             if (name) {
-                data[name] = value
+                if (value.trim()) {
+                    elem.style.border = ''
+                    data[name] = value;
+                } else {
+                    elem.style.border = '1px solid red'
+                    flag = false; 
+                    elem.value = '';
+                }
             }
         }
 
-        const smallElem= document.createElement('small');
+        if (!flag) {
+            return smallElem.textContent = 'Заполните все поля';
+        }
 
-        sendData(JSON.stringify(dataTest), 
+        sendData(JSON.stringify(data), 
         (id) => {
-            smallElem.textContent = 'Ваша заявка номер ' + id + '! \n В ближайшее время с Вами свяжуться!';
+            smallElem.innerHTML = 'Ваша заявка номер ' + id + '!<br> В ближайшее время с Вами свяжуться!';
             smallElem.style.color = 'green';
-            form.append(smallElem);
+
+            setTimeout(() => {
+                smallElem.textContent = '';
+                buttonSubmit.disabled = false;
+            }, 5000);
         },
         (err) => {
             smallElem.textContent = 'К сожалению технические неполадки, попробуйте отправить заявку позже';
             smallElem.style.color = 'red';
-            form.append(smallElem);
         });
         form.reset();
 
     })
 }; 
 
-formElems.forEach(formHandler)
+export default function sendForm() {
+    
+    const formElems = document.querySelectorAll('.form');
+
+    formElems.forEach(formHandler)
+}
+
 
 
 
